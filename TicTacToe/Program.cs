@@ -56,14 +56,19 @@ namespace TicTacToe
             while (gameInPlay)
             {
                 DrawBoard();
+                
                 int x, y;
                 
                 Console.WriteLine("Player 1's Turn");
                 Console.WriteLine("Choose a position in the form: x y");
                 string input = Console.ReadLine();
-                GetMoveFromUser(input, out x, out y);
+                while (!GetMoveFromUser(input, out x, out y))
+                {
+                    input = Console.ReadLine();
+                }
+                
+                MakeMove(x, y);
 
-                gameInPlay = false;
             }
         }
 
@@ -130,6 +135,11 @@ namespace TicTacToe
             }
 
             return true; // Otherwise the input is valid
+        }
+
+        private void MakeMove(Player player, int x, int y)
+        {
+            _board[y - 1, x - 1] = player.Character;
         }
     }
 
