@@ -27,7 +27,7 @@
             
         }
 
-        private static RunApplication(int value)
+        private static void RunApplication(int value)
         {
             
         }
