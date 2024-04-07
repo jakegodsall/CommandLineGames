@@ -55,10 +55,10 @@
             }
             else
             {
-                Console.WriteLine("TODOS:");
                 for (var i = 0; i < _todos.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {_todos[i].Description}");
+                    var item = _todos[i];
+                    PrintTableRow(i + 1, item);
                 }
                 Console.WriteLine();
             }
@@ -151,6 +151,11 @@
             Console.WriteLine("Selected option: " + selectedOption);
         }
 
+        private void PrintTableRow(int index, TodoItem item)
+        {
+            Console.WriteLine($"[{index + 1}] {item.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")} {item.Description}");
+        }
+
         private static void ShowNoTodosMethod()
         {
             Console.WriteLine("No TODOS have been added yet");
@@ -160,8 +165,8 @@
     class TodoItem
     {
         public string Description;
-        private DateTime CreatedAt;
-        private bool IsComplete;
+        public DateTime CreatedAt;
+        public bool IsComplete;
 
         public TodoItem(string description)
         {
