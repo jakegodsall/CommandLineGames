@@ -2,7 +2,7 @@
 {
     class TodoList
     {
-        private List<string> _todos = new List<string>();
+        private List<TodoItem> _todos = new List<TodoItem>();
         
         public void Run()
         {
@@ -21,7 +21,7 @@
                         case "S":
                         case "s":
                             PrintSelectedOption("See all TODOs");
-                            ShowTodos();
+                            ShowAllTodos();
                             break;
                         case "A":
                         case "a":
@@ -46,10 +46,8 @@
 
             } while (input != "E" && input != "e");
         }
-        
-        
-        
-        private void ShowTodos()
+
+        private void ShowAllTodos()
         {
             if (_todos.Count == 0)
             {
@@ -60,7 +58,7 @@
                 Console.WriteLine("TODOS:");
                 for (var i = 0; i < _todos.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {_todos[i]}");
+                    Console.WriteLine($"{i + 1}. {_todos[i].Description}");
                 }
                 Console.WriteLine();
             }
@@ -72,7 +70,7 @@
             var userInput = Console.ReadLine();
             if (IsDescriptionValid(userInput))
             {
-                _todos.Add(userInput);
+                _todos.Add(new TodoItem(userInput));
             }
         }
         
@@ -105,7 +103,7 @@
                 Console.WriteLine("The description cannot be empty");
                 return false;
             }
-            if (_todos.Contains(description))
+            if (_todos.Exists(item => item.Description == description))
             {
                 Console.WriteLine("The description must be unique");
                 return false;
@@ -156,6 +154,20 @@
         private static void ShowNoTodosMethod()
         {
             Console.WriteLine("No TODOS have been added yet");
+        }
+    }
+
+    class TodoItem
+    {
+        public string Description;
+        private DateTime CreatedAt;
+        private bool IsComplete;
+
+        public TodoItem(string description)
+        {
+            Description = description;
+            CreatedAt = DateTime.Now;
+            IsComplete = false;
         }
     }
 
