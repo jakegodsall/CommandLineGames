@@ -1,4 +1,7 @@
-﻿namespace Todo
+﻿using System.Diagnostics;
+using System.IO;
+
+namespace Todo
 {
     class TodoList
     {
@@ -18,10 +21,12 @@
                     
                     switch (input)
                     {
-                        case "S":
-                        case "s":
-                            PrintSelectedOption("See all TODOs");
+                        case "V":
+                        case "v":
+                            Console.Clear();
+                            PrintSelectedOption("View all TODOs");
                             ShowAllTodos();
+                            
                             break;
                         case "A":
                         case "a":
@@ -32,6 +37,13 @@
                         case "r":
                             PrintSelectedOption("Remove");
                             RemoveTodoItem();
+                            break;
+                        case "S":
+                        case "s":
+                            Console.WriteLine("Enter filename");
+                            var filename = Console.ReadLine(); 
+                            SaveTodos(filename);
+                            Console.WriteLine($"Saved to {filename}.txt");
                             break;
                         case "E":
                         case "e":
@@ -58,7 +70,7 @@
                 for (var i = 0; i < _todos.Count; i++)
                 {
                     var item = _todos[i];
-                    PrintTableRow(i + 1, item);
+                    PrintTableRow(item);
                 }
                 Console.WriteLine();
             }
@@ -126,14 +138,37 @@
             }
             return true;
         }
+
+        private void SaveTodos(string filename)
+        {
+            try
+            {
+                // Pass the filepath and filename to the StreamWriter Constructor
+                StreamWriter sw = new StreamWriter("./" + filename + ".txt");
+                // Loop through the todos
+                foreach (var todo in _todos)
+                {
+                    // Write the todo to the file
+                    sw.WriteLine(todo);
+                }
+                // Close the file
+                sw.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
         
         private static void PrintOptions()
         {
             string[] options =
             {
-                "[S]ee all TODOs",
+                "[V]iew all TODOs",
                 "[A]dd a TODO",
                 "[R]emove",
+                "[S]ave",
                 "[E]xit"
             };
     
@@ -151,9 +186,9 @@
             Console.WriteLine("Selected option: " + selectedOption);
         }
 
-        private void PrintTableRow(int index, TodoItem item)
+        private void PrintTableRow(TodoItem item)
         {
-            Console.WriteLine($"[{index + 1}] {item.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")} {item.Description}");
+            Console.WriteLine(item);
         }
 
         private static void ShowNoTodosMethod()
@@ -173,6 +208,17 @@
             Description = description;
             CreatedAt = DateTime.Now;
             IsComplete = false;
+        }
+
+        public override string ToString()
+        {
+            var substring = Description.Count() < 20 ? Description : Description.Substring(0, 20);
+            return $"{substring}... ({FormatCreatedAt()})";
+        }
+
+        public string FormatCreatedAt()
+        {
+            return CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
         }
     }
 
