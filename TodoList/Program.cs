@@ -41,7 +41,8 @@ namespace Todo
                         case "S":
                         case "s":
                             Console.WriteLine("Enter filename");
-                            var filename = Console.ReadLine(); 
+                            var filename = Console.ReadLine();
+                            Console.WriteLine($"Writing to {filename}.txt");
                             SaveTodos(filename);
                             Console.WriteLine($"Saved to {filename}.txt");
                             break;
@@ -141,24 +142,27 @@ namespace Todo
 
         private void SaveTodos(string filename)
         {
-            try
+            // try
+            // {
+            // Pass the filepath and filename to the StreamWriter Constructor
+
+            var cwd = Directory.GetCurrentDirectory();
+            StreamWriter sw = new StreamWriter(cwd + "/" + filename + ".txt");
+            // Loop through the todos
+            foreach (var todo in _todos)
             {
-                // Pass the filepath and filename to the StreamWriter Constructor
-                StreamWriter sw = new StreamWriter("./" + filename + ".txt");
-                // Loop through the todos
-                foreach (var todo in _todos)
-                {
-                    // Write the todo to the file
-                    sw.WriteLine(todo);
-                }
-                // Close the file
-                sw.Close();
+                // Write the todo to the file
+                Console.WriteLine(todo);
+                sw.WriteLine(todo);
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            // Close the file
+            sw.Close();
+            // }
+            // catch (Exception e)
+            // {
+            //     Console.WriteLine(e);
+            //     throw;
+            // }
         }
         
         private static void PrintOptions()
