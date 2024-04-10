@@ -1,74 +1,99 @@
 ﻿using System.Diagnostics;
 using System.IO;
 
-namespace Todo
+namespace TodoList
 {
-    public class TodoList
+    public class 
+        TodoList
     {
         private List<Todo> _todos = new List<Todo>();
+        private static readonly string DataFilePath = Directory.GetCurrentDirectory() + "/data.txt";
+        private static readonly string[] Options =
+        {
+            "[V]iew all TODOs",
+            "[A]dd a TODO",
+            "[R]emove",
+            "[S]ave",
+        };
+       
         
         public void Run()
         {
-            string input;
+            _todos = TodoRepository.Read(DataFilePath);
+            if (TodoCount() == 0)
+            {
+                Console.WriteLine("No saved todos.");
+            }
+            else
+            {
+                Console.WriteLine(TodoCount() == 1 ? $"Loaded {TodoCount()} saved todo." : $"Loaded {TodoCount()} saved todos.");
+            }
+
+            Console.WriteLine();
+
+            ConsoleKeyInfo consoleKeyInfo;
             do
             {
-                PrintOptions();
-                Console.WriteLine("Select an option: ");
-                input = Console.ReadLine();
-
-                if (!string.IsNullOrEmpty(input))
+                Console.WriteLine("Press enter to show options.");
+                Console.WriteLine("Press q to exit.\n");
+                consoleKeyInfo = Console.ReadKey();
+                if (consoleKeyInfo.Key == ConsoleKey.Enter)
                 {
-                    
-                    switch (input)
-                    {
-                        case "V":
-                        case "v":
-                            Console.Clear();
-                            PrintSelectedOption("View all TODOs");
-                            ShowAllTodos();
-                            
-                            break;
-                        case "A":
-                        case "a":
-                            PrintSelectedOption("Add a TODO");
-                            AddTodoItem();
-                            break;
-                        case "R":
-                        case "r":
-                            PrintSelectedOption("Remove");
-                            RemoveTodoItem();
-                            break;
-                        case "S":
-                        case "s":
-                            Console.WriteLine("Enter filename");
-                            var filename = Console.ReadLine();
-                            Console.WriteLine($"Writing to {filename}.txt");
-                            SaveTodos(filename);
-                            Console.WriteLine($"Saved to {filename}.txt");
-                            break;
-                        case "E":
-                        case "e":
-                            PrintSelectedOption("Exit");
-                            Console.WriteLine("Goodbye");
-                            break;
-                        default:
-                            Console.WriteLine("Invalid choice.\n");
-                            break;
-                    }
+                    SelectOption();
                 }
+            } while (consoleKeyInfo.Key != ConsoleKey.Q);
+        }
 
-            } while (input != "E" && input != "e");
+        private void SelectOption()
+        {
+            string input;
+            PrintOptions();
+            Console.WriteLine("Select an option:\n");
+            input = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                
+                switch (input)
+                {
+                    case "V":
+                    case "v":
+                        Console.Clear();
+                        PrintSelectedOption("View all TODOs");
+                        ShowAllTodos();
+                        
+                        break;
+                    case "A":
+                    case "a":
+                        PrintSelectedOption("Add a TODO");
+                        AddTodoItem();
+                        break;
+                    case "R":
+                    case "r":
+                        PrintSelectedOption("Remove");
+                        RemoveTodoItem();
+                        break;
+                    case "S":
+                    case "s":
+                        Console.WriteLine("Enter filename");
+                        var filename = Console.ReadLine();
+                        Console.WriteLine($"Writing to {filename}.txt");
+                        SaveTodos();
+                        Console.WriteLine($"Saved to {filename}.txt");
+                        break;
+                }
+            }
         }
 
         private void ShowAllTodos()
         {
-            if (_todos.Count == 0)
+            if (TodoCount() == 0)
             {
                 ShowNoTodosMethod();
             }
             else
             {
-                for (var i = 0; i < _todos.Count; i++)
+                for (var i = 0; i < TodoCount(); i++)
                 {
                     var item = _todos[i];
                     PrintTableRow(item);
@@ -140,44 +165,17 @@ namespace Todo
             return true;
         }
 
-        private void SaveTodos(string filename)
+        private void SaveTodos()
         {
-            // try
-            // {
-            // Pass the filepath and filename to the StreamWriter Constructor
-
-            var cwd = Directory.GetCurrentDirectory();
-            StreamWriter sw = new StreamWriter(cwd + "/" + filename + ".txt");
-            // Loop through the todos
-            foreach (var todo in _todos)
-            {
-                // Write the todo to the file
-                Console.WriteLine(todo);
-                sw.WriteLine(todo);
-            }
-            // Close the file
-            sw.Close();
-            // }
-            // catch (Exception e)
-            // {
-            //     Console.WriteLine(e);
-            //     throw;
-            // }
+            TodoRepository.Write(DataFilePath, _todos);
         }
         
         private static void PrintOptions()
         {
-            string[] options =
-            {
-                "[V]iew all TODOs",
-                "[A]dd a TODO",
-                "[R]emove",
-                "[S]ave",
-                "[E]xit"
-            };
+            
     
             Console.WriteLine("What do you want to do?");
-            foreach (var option in options)
+            foreach (var option in Options)
             {
                 Console.WriteLine(option);
             }
@@ -198,6 +196,11 @@ namespace Todo
         private static void ShowNoTodosMethod()
         {
             Console.WriteLine("No TODOS have been added yet");
+        }
+        
+        private int TodoCount()
+        {
+            return _todos.Count();
         }
     }
 
