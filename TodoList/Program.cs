@@ -223,16 +223,21 @@ namespace TodoList
             CreatedAt = createdAt;
             IsComplete = isComplete;
         }
+        
+        public string FormatCreatedAt()
+        {
+            return CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
+        }
 
         public override string ToString()
         {
             var substring = Description.Count() < 20 ? Description : Description.Substring(0, 20);
             return $"{substring}... ({FormatCreatedAt()})";
         }
-
-        public string FormatCreatedAt()
+        
+        public string ToStringVerbose()
         {
-            return CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
+            return $"{Description},{CreatedAt},{IsComplete}";
         }
     }
 
@@ -263,15 +268,12 @@ namespace TodoList
             {
                 foreach (var todo in todos) 
                 {
-                    sw.WriteLine(FormatTodoLine(todo));
+                    sw.WriteLine(todo.ToStringVerbose());
                 }
             }
         }
 
-        private static string FormatTodoLine(Todo todo)
-        {
-            return $"{todo.Description},{todo.CreatedAt},{todo.IsComplete}";
-        }
+        
     }
 
     public class Program
