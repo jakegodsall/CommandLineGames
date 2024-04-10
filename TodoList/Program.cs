@@ -206,9 +206,9 @@ namespace TodoList
 
     public class Todo
     {
-        public string Description;
-        public DateTime CreatedAt;
-        public bool IsComplete;
+        public string Description { get; private set;  }
+        public DateTime CreatedAt { get; private set; }
+        public bool IsComplete { get; private set; }
 
         public Todo(string description)
         {
@@ -224,15 +224,25 @@ namespace TodoList
             IsComplete = isComplete;
         }
         
-        public string FormatCreatedAt()
+        private string FormatCreatedAt()
         {
             return CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        private string FormatComplete()
+        {
+            if (IsComplete)
+            {
+                return "[X]";
+            }
+
+            return "[]";
         }
 
         public override string ToString()
         {
             var substring = Description.Count() < 20 ? Description : Description.Substring(0, 20);
-            return $"{substring}... ({FormatCreatedAt()})";
+            return $"{FormatCreatedAt()}: {substring}... {FormatComplete()}";
         }
         
         public string ToStringVerbose()
@@ -272,8 +282,6 @@ namespace TodoList
                 }
             }
         }
-
-        
     }
 
     public class Program
