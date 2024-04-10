@@ -3,9 +3,9 @@ using System.IO;
 
 namespace Todo
 {
-    class TodoList
+    public class TodoList
     {
-        private List<TodoItem> _todos = new List<TodoItem>();
+        private List<Todo> _todos = new List<Todo>();
         
         public void Run()
         {
@@ -83,7 +83,7 @@ namespace Todo
             var userInput = Console.ReadLine();
             if (IsDescriptionValid(userInput))
             {
-                _todos.Add(new TodoItem(userInput));
+                _todos.Add(new Todo(userInput));
             }
         }
         
@@ -190,7 +190,7 @@ namespace Todo
             Console.WriteLine("Selected option: " + selectedOption);
         }
 
-        private void PrintTableRow(TodoItem item)
+        private void PrintTableRow(Todo item)
         {
             Console.WriteLine(item);
         }
@@ -201,17 +201,24 @@ namespace Todo
         }
     }
 
-    class TodoItem
+    public class Todo
     {
         public string Description;
         public DateTime CreatedAt;
         public bool IsComplete;
 
-        public TodoItem(string description)
+        public Todo(string description)
         {
             Description = description;
             CreatedAt = DateTime.Now;
             IsComplete = false;
+        }
+
+        public Todo(string description, DateTime createdAt, bool isComplete)
+        {
+            Description = description;
+            CreatedAt = createdAt;
+            IsComplete = isComplete;
         }
 
         public override string ToString()
@@ -226,9 +233,47 @@ namespace Todo
         }
     }
 
-    class Program
+    public static class TodoRepository
     {
-        static void Main(String[] args)
+        public static List<Todo> Read(string filePath)
+        {
+            var todos = new List<Todo>();
+            
+            if (!File.Exists(filePath))
+            {
+                return [];
+            }
+
+            using (var sr = new StreamReader(filePath))
+            {
+                var stringRepr = sr.ReadLine().Split(",");
+                var todo = new Todo(stringRepr[0], DateTime.Parse(stringRepr[1]), bool.Parse(stringRepr[2]));
+                todos.Add(todo);
+            }
+
+            return todos;
+        }
+            
+        public static void Write(string filePath, List<Todo> todos)
+        {
+            using (var sw = new StreamWriter(filePath))
+            {
+                foreach (var todo in todos) 
+                {
+                    sw.WriteLine(FormatTodoLine(todo));
+                }
+            }
+        }
+
+        private static string FormatTodoLine(Todo todo)
+        {
+            return $"{todo.Description},{todo.CreatedAt},{todo.IsComplete}";
+        }
+    }
+
+    public class Program
+    {
+        private static void Main(string[] args)
         {
             var todoList = new TodoList();
 
