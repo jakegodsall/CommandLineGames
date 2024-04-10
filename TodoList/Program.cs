@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
-
-namespace TodoList
+﻿namespace TodoList
 {
     public class 
         TodoList
@@ -15,7 +12,6 @@ namespace TodoList
             "[R]emove",
             "[S]ave",
         };
-       
         
         public void Run()
         {
@@ -172,8 +168,6 @@ namespace TodoList
         
         private static void PrintOptions()
         {
-            
-    
             Console.WriteLine("What do you want to do?");
             foreach (var option in Options)
             {
@@ -201,86 +195,6 @@ namespace TodoList
         private int TodoCount()
         {
             return _todos.Count();
-        }
-    }
-
-    public class Todo
-    {
-        public string Description { get; private set;  }
-        public DateTime CreatedAt { get; private set; }
-        public bool IsComplete { get; private set; }
-
-        public Todo(string description)
-        {
-            Description = description;
-            CreatedAt = DateTime.Now;
-            IsComplete = false;
-        }
-
-        public Todo(string description, DateTime createdAt, bool isComplete)
-        {
-            Description = description;
-            CreatedAt = createdAt;
-            IsComplete = isComplete;
-        }
-        
-        private string FormatCreatedAt()
-        {
-            return CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
-        }
-
-        private string FormatComplete()
-        {
-            if (IsComplete)
-            {
-                return "[X]";
-            }
-
-            return "[]";
-        }
-
-        public override string ToString()
-        {
-            var substring = Description.Count() < 20 ? Description : Description.Substring(0, 20);
-            return $"{FormatCreatedAt()}: {substring}... {FormatComplete()}";
-        }
-        
-        public string ToStringVerbose()
-        {
-            return $"{Description},{CreatedAt},{IsComplete}";
-        }
-    }
-
-    public static class TodoRepository
-    {
-        public static List<Todo> Read(string filePath)
-        {
-            var todos = new List<Todo>();
-            
-            if (!File.Exists(filePath))
-            {
-                return [];
-            }
-
-            using (var sr = new StreamReader(filePath))
-            {
-                var stringRepr = sr.ReadLine().Split(",");
-                var todo = new Todo(stringRepr[0], DateTime.Parse(stringRepr[1]), bool.Parse(stringRepr[2]));
-                todos.Add(todo);
-            }
-
-            return todos;
-        }
-            
-        public static void Write(string filePath, List<Todo> todos)
-        {
-            using (var sw = new StreamWriter(filePath))
-            {
-                foreach (var todo in todos) 
-                {
-                    sw.WriteLine(todo.ToStringVerbose());
-                }
-            }
         }
     }
 
