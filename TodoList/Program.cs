@@ -1,7 +1,6 @@
 ﻿namespace TodoList
 {
-    public class 
-        TodoList
+    public class TodoList
     {
         private List<Todo> _todos = new List<Todo>();
         private static readonly string DataFilePath = Directory.GetCurrentDirectory() + "/data.txt";
@@ -102,7 +101,7 @@
         {
             Console.WriteLine("Enter a TODO description: ");
             var userInput = Console.ReadLine();
-            if (IsDescriptionValid(userInput))
+            if (TodoValidator.IsDescriptionValid(userInput, _todos))
             {
                 _todos.Add(new Todo(userInput));
             }
@@ -128,21 +127,6 @@
             } while (inputIsNotValid);
 
             _todos.RemoveAt(indexToRemove - 1);
-        }
-        
-        private bool IsDescriptionValid(string description)
-        {
-            if (string.IsNullOrEmpty(description))
-            {
-                Console.WriteLine("The description cannot be empty");
-                return false;
-            }
-            if (_todos.Exists(item => item.Description == description))
-            {
-                Console.WriteLine("The description must be unique");
-                return false;
-            }
-            return true;
         }
 
         private bool IsInputValidTodoIndex(string input, out int indexToRemove)
