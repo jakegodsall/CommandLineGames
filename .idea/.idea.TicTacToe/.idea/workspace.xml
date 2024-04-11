@@ -10,12 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c14d23ed-66c7-4ee3-ab22-531fd73e6621" name="Changes" comment="added game logic">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TicTacToe/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TicTacToe/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DiceRollGame/Die.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DiceRollGame/Die.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DiceRollGame/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DiceRollGame/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DiceRollGame/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DiceRollGame/Program.cs" afterDir="false" />
-    </list>
+    <list default="true" id="c14d23ed-66c7-4ee3-ab22-531fd73e6621" name="Changes" comment="finished basic level of game" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,6 +35,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Users/jakegodsall/Documents/dev/cli/cli-tools/DiceRollGame/Die.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DiceRollGame/Die.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DiceRollGame/Game.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock:///Users/jakegodsall/Documents/dev/cli/cli-tools/DiceRollGame/Game.cs" root0="SKIP_HIGHLIGHTING" />
@@ -164,7 +160,7 @@
       <updated>1712764733679</updated>
       <workItem from="1712764734635" duration="424000" />
       <workItem from="1712765161745" duration="6922000" />
-      <workItem from="1712821362800" duration="3628000" />
+      <workItem from="1712821362800" duration="4258000" />
     </task>
     <task id="LOCAL-00001" summary="added a TodoRepository for reading and writing to file">
       <option name="closed" value="true" />
@@ -230,7 +226,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712824225895</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="finished basic level of game">
+      <option name="closed" value="true" />
+      <created>1712825620610</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1712825620610</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -248,6 +252,7 @@
     <MESSAGE value="extracted TodoValidator class" />
     <MESSAGE value="added DiceRollGame project with basic classes to represent Die, Game and InputValidation" />
     <MESSAGE value="added game logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="added game logic" />
+    <MESSAGE value="finished basic level of game" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished basic level of game" />
   </component>
 </project>
