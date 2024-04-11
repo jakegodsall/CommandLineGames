@@ -2,8 +2,11 @@ namespace DiceRoleGame;
 
 public class Game
 {
-    public Die Die { get; set; }
     public int NumberOfGuesses { get; private set; }
+    public Die Die { get; set; }
+    public int RolledValue { get; set;  }
+    
+    
 
     public Game()
     {
@@ -12,6 +15,25 @@ public class Game
     public void Run()
     {
         InitialiseGame();
+        int guessCount = 0;
+        bool gameInPlay = true;
+        while (gameInPlay)
+        {
+            var guessedCorrectly = MakeGuess();
+            ++guessCount;
+
+            if (guessedCorrectly)
+            {
+                Console.WriteLine($"Correct! You guessed the correct value in {guessCount} guesses.");
+                gameInPlay = false;
+            }
+            else if (guessCount == NumberOfGuesses)
+            {
+                Console.WriteLine("You lose :(");
+                gameInPlay = false;
+            }
+        }
+
     }
 
     private void InitialiseGame()
@@ -52,5 +74,21 @@ public class Game
 
         Console.WriteLine(
             $"Game initialised: You have {NumberOfGuesses} guesses to guess the value rolled on a {Die.NumberOfSides}-sided die.");
+
+        RolledValue = Die.Role();
+    }
+
+    private bool MakeGuess()
+    {
+        int guess = 1;
+        var isValidInput = false;
+        while (!isValidInput)
+        {
+            Console.WriteLine("Enter a number:");
+            var input = Console.ReadLine();
+            isValidInput = InputValidator.IsInteger(input, out guess);
+        }
+
+        return guess == RolledValue;
     }
 }
