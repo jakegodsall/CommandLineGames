@@ -3,16 +3,10 @@ namespace DiceRoleGame;
 public class Game
 {
     public int NumberOfGuesses { get; private set; }
-    public Die Die { get; set; }
+    private Die _die;
     public int RolledValue { get; set;  }
-    
-    
 
-    public Game()
-    {
-    }
-
-    public void Run()
+    public void Play()
     {
         InitialiseGame();
         int guessCount = 0;
@@ -56,26 +50,24 @@ public class Game
         while (!isValidInput)
         {
             Console.WriteLine("How many sides should the die have?");
-            var input = Console.ReadLine();
-            isValidInput = InputValidator.IsInteger(input, out numberOfSides);
+            isValidInput = InputValidator.IsInteger(Console.ReadLine(), out numberOfSides);
         }
 
-        Die = new Die(numberOfSides);
+        _die = new Die(numberOfSides);
         
         isValidInput = false;
         int tempNumberOfGuesses;
         while (!isValidInput)
         {
             Console.WriteLine("How many guesses should you have?");
-            var input = Console.ReadLine();
-            isValidInput = InputValidator.IsInteger(input, out tempNumberOfGuesses);
+            isValidInput = InputValidator.IsInteger(Console.ReadLine(), out tempNumberOfGuesses);
             NumberOfGuesses = tempNumberOfGuesses;
         }
 
         Console.WriteLine(
-            $"Game initialised: You have {NumberOfGuesses} guesses to guess the value rolled on a {Die.NumberOfSides}-sided die.");
+            $"Game initialised: You have {NumberOfGuesses} guesses to guess the value rolled on a {_die.NumberOfSides}-sided die.");
 
-        RolledValue = Die.Role();
+        RolledValue = _die.Roll();
     }
 
     private bool MakeGuess()
@@ -85,8 +77,7 @@ public class Game
         while (!isValidInput)
         {
             Console.WriteLine("Enter a number:");
-            var input = Console.ReadLine();
-            isValidInput = InputValidator.IsInteger(input, out guess);
+            isValidInput = InputValidator.IsInteger(Console.ReadLine(), out guess);
         }
 
         return guess == RolledValue;
