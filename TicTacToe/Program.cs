@@ -1,52 +1,13 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-
-namespace TicTacToe
+﻿namespace TicTacToe
 {
-    class Player
-    {
-        private char _character;
-
-        public char Character
-        {
-            get => _character;
-            set => _character = value;
-        }
-
-        public Player(char character)
-        {
-            _character = character;
-        }
-        
-        
-    }
-    
     class TicTacToe
     {
         private Player _player1;
         private Player _player2;
-        private char[,] _board =
-        {
-            { ' ', ' ', ' ' },
-            { ' ', ' ', ' ' },
-            { ' ', ' ', ' ' }
-        };
+        private Board _board = new Board();
+        private int _turnCount = 1;
 
-        public void DrawBoard()
-        {
-            var verticalBar = new string('-', 13);
-            Console.WriteLine(verticalBar);
-            for (int i = 0; i < _board.GetLength(0); i++)
-            {
-                var row = "| ";
-                for (int j = 0; j < _board.GetLength(1); j++)
-                {
-                    row += _board[i, j] + " | ";
-                }
-                Console.WriteLine(row);
-                Console.WriteLine(verticalBar);
-            }
-        }
-
+        
         public void Play()
         {
             InitialiseGame();
@@ -55,20 +16,22 @@ namespace TicTacToe
 
             while (gameInPlay)
             {
-                DrawBoard();
-                
                 int x, y;
+                var currentPlayer = DeterminePlayer();
                 
-                Console.WriteLine("Player 1's Turn");
+                _board.Draw();
+
+                Console.WriteLine(_player1.Equals(DeterminePlayer()) ? "Player 1's Turn:" : "Player 2's Turn:");
                 Console.WriteLine("Choose a position in the form: x y");
-                string input = Console.ReadLine();
+                var input = Console.ReadLine();
                 while (!GetMoveFromUser(input, out x, out y))
                 {
                     input = Console.ReadLine();
                 }
                 
-                MakeMove(x, y);
+                _board.MakeMove(currentPlayer, x, y);
 
+                ++_turnCount;
             }
         }
 
@@ -109,7 +72,7 @@ namespace TicTacToe
                 Console.WriteLine("Input cannot be empty");
                 return false;
             }
-            
+
             // Split the input based on whitespace
             string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 2)
@@ -117,7 +80,7 @@ namespace TicTacToe
                 Console.WriteLine("Please enter exactly two numbers separated by a space");
                 return false;
             }
-            
+
             // Check the inputs are numerical
             bool isXValid = int.TryParse(parts[0], out x);
             bool isYValid = int.TryParse(parts[1], out y);
@@ -126,7 +89,7 @@ namespace TicTacToe
                 Console.WriteLine("Both entries must be numerical");
                 return false;
             }
-            
+
             // Check the inputs are in range
             if (x < 1 || x > 3 || y < 1 || y > 3)
             {
@@ -137,9 +100,14 @@ namespace TicTacToe
             return true; // Otherwise the input is valid
         }
 
-        private void MakeMove(Player player, int x, int y)
+        private Player DeterminePlayer()
         {
-            _board[y - 1, x - 1] = player.Character;
+            if (_turnCount % 2 == 1)
+            {
+                return _player1;
+            }
+
+            return _player2;
         }
     }
 

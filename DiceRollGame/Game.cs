@@ -2,15 +2,15 @@ namespace DiceRoleGame;
 
 public class Game
 {
-    public int NumberOfGuesses { get; private set; }
-    private Die _die;
-    public int RolledValue { get; set;  }
+    private int NumberOfGuesses { get; set; }
+    private Die? _die;
+    private int RolledValue { get; set;  }
 
     public void Play()
     {
         InitialiseGame();
-        int guessCount = 0;
-        bool gameInPlay = true;
+        var guessCount = 0;
+        var gameInPlay = true;
         while (gameInPlay)
         {
             var guessedCorrectly = MakeGuess();
@@ -56,11 +56,10 @@ public class Game
         _die = new Die(numberOfSides);
         
         isValidInput = false;
-        int tempNumberOfGuesses;
         while (!isValidInput)
         {
             Console.WriteLine("How many guesses should you have?");
-            isValidInput = InputValidator.IsInteger(Console.ReadLine(), out tempNumberOfGuesses);
+            isValidInput = InputValidator.IsInteger(Console.ReadLine(), out var tempNumberOfGuesses);
             NumberOfGuesses = tempNumberOfGuesses;
         }
 
@@ -72,7 +71,7 @@ public class Game
 
     private bool MakeGuess()
     {
-        int guess = 1;
+        var guess = 1;
         var isValidInput = false;
         while (!isValidInput)
         {
