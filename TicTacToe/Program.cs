@@ -11,26 +11,45 @@
         public void Play()
         {
             InitialiseGame();
-            
+            _board.Draw();    
             var gameInPlay = true;
-
+    
+            
             while (gameInPlay)
             {
                 int x, y;
                 var currentPlayer = DeterminePlayer();
                 
-                _board.Draw();
-
                 Console.WriteLine(_player1.Equals(DeterminePlayer()) ? "Player 1's Turn:" : "Player 2's Turn:");
+                
                 Console.WriteLine("Choose a position in the form: x y");
                 var input = Console.ReadLine();
-                while (!GetMoveFromUser(input, out x, out y))
+                while (!GetMoveFromUser(input, out x, out y) && !_board.MakeMove(currentPlayer , x, y))
                 {
+                    Console.WriteLine("Choose a position in the form: x y");
                     input = Console.ReadLine();
                 }
-                
-                _board.MakeMove(currentPlayer, x, y);
 
+                _board.MakeMove(currentPlayer, x, y);
+                //
+                // while (!_board.MakeMove(currentPlayer , x, y))
+                // {
+                //     Console.WriteLine("Choose a position in the form: x y");
+                //     input = Console.ReadLine();
+                //     while (!GetMoveFromUser(input, out x, out y))
+                //     {
+                //         input = Console.ReadLine();
+                //     }
+                //     _board.MakeMove(currentPlayer, x, y);
+                // }
+                    
+                _board.Draw();
+
+                if (_board.CheckForWin())
+                {
+                    Console.WriteLine(_player1.Equals(DeterminePlayer()) ? "Player 1 won!" : "Player 2 won!");
+                    gameInPlay = false;
+                }
                 ++_turnCount;
             }
         }
@@ -74,7 +93,7 @@
             }
 
             // Split the input based on whitespace
-            string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 2)
             {
                 Console.WriteLine("Please enter exactly two numbers separated by a space");
@@ -82,32 +101,17 @@
             }
 
             // Check the inputs are numerical
-            bool isXValid = int.TryParse(parts[0], out x);
-            bool isYValid = int.TryParse(parts[1], out y);
-            if (!isXValid || !isYValid)
-            {
-                Console.WriteLine("Both entries must be numerical");
-                return false;
-            }
+            var isXValid = int.TryParse(parts[0], out x);
+            var isYValid = int.TryParse(parts[1], out y);
+            if (isXValid && isYValid) return true;
+            Console.WriteLine("Both entries must be numerical");
+            return false;
 
-            // Check the inputs are in range
-            if (x < 1 || x > 3 || y < 1 || y > 3)
-            {
-                Console.WriteLine("The entries must be in range");
-                return false;
-            }
-
-            return true; // Otherwise the input is valid
         }
-
+        
         private Player DeterminePlayer()
         {
-            if (_turnCount % 2 == 1)
-            {
-                return _player1;
-            }
-
-            return _player2;
+            return _turnCount % 2 == 1 ? _player1 : _player2;
         }
     }
 
