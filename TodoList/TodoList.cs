@@ -9,12 +9,14 @@ public class TodoList
         "[V]iew all TODOs",
         "[A]dd a TODO",
         "[R]emove",
+        "[M]ark TODO as complete",
         "[S]ave",
     };
         
     public void Run()
     {
         _todos = TodoRepository.Read(DataFilePath);
+        Todo.InitialiseLastId(_todos);
         if (TodoCount() == 0)
         {
             Console.WriteLine("No saved todos.");
@@ -56,7 +58,6 @@ public class TodoList
                     Console.Clear();
                     PrintSelectedOption("View all TODOs");
                     ShowAllTodos();
-                        
                     break;
                 case "A":
                 case "a":
@@ -68,6 +69,11 @@ public class TodoList
                     PrintSelectedOption("Remove");
                     RemoveTodoItem();
                     break;
+                case "M":
+                case "m":
+                    PrintSelectedOption("Mark TODO as complete");
+                    MarkTodoAsComplete();
+                    break;
                 case "S":
                 case "s":
                     SaveTodos();
@@ -76,7 +82,7 @@ public class TodoList
         }
     }
 
-    private void ShowAllTodos()
+    private void ShowAllTodos(bool withIndices = false)
     {
         if (TodoCount() == 0)
         {
@@ -87,7 +93,14 @@ public class TodoList
             for (var i = 0; i < TodoCount(); i++)
             {
                 var item = _todos[i];
-                PrintTableRow(item);
+                if (withIndices)
+                {
+                    PrintTableRowWithIndex(i + 1, item);
+                }
+                else
+                {
+                    PrintTableRow(item);
+                }
             }
             Console.WriteLine();
         }
@@ -142,6 +155,15 @@ public class TodoList
         return true;
     }
 
+    public void MarkTodoAsComplete()
+    {
+        Console.WriteLine("Select a TODO to mark as complete (by index):");
+        ShowAllTodos(true);
+
+        var input = Console.ReadLine();
+        var isSuccess = int.TryParse(input, out var index);
+    }
+
     private void SaveTodos()
     {
         TodoRepository.Write(DataFilePath, _todos);
@@ -167,6 +189,11 @@ public class TodoList
     private void PrintTableRow(Todo item)
     {
         Console.WriteLine(item);
+    }
+
+    private void PrintTableRowWithIndex(int index, Todo item)
+    {
+        Console.WriteLine($"{index}: {item}");
     }
 
     private static void ShowNoTodosMethod()

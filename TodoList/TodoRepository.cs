@@ -18,14 +18,15 @@ public static class TodoRepository
             while ((line = sr.ReadLine()) != null)
             {
                 var stringRepr = line.Split(",");
-                if (stringRepr.Length == 3)
+                if (stringRepr.Length == 4)
                 {
                     try
                     {
                         var todo = new Todo(
-                            stringRepr[0],
-                            DateTime.Parse(stringRepr[1]),
-                            bool.Parse(stringRepr[2])
+                            int.Parse(stringRepr[0]),
+                            stringRepr[1],
+                            DateTime.Parse(stringRepr[2]),
+                            bool.Parse(stringRepr[3])
                             );
                         todos.Add(todo);
                     }
