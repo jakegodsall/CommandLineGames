@@ -13,11 +13,35 @@ public static class TodoRepository
 
         using (var sr = new StreamReader(filePath))
         {
-            var stringRepr = sr.ReadLine().Split(",");
-            var todo = new Todo(stringRepr[0], DateTime.Parse(stringRepr[1]), bool.Parse(stringRepr[2]));
-            todos.Add(todo);
+            
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                var stringRepr = line.Split(",");
+                if (stringRepr.Length == 3)
+                {
+                    try
+                    {
+                        var todo = new Todo(
+                            stringRepr[0],
+                            DateTime.Parse(stringRepr[1]),
+                            bool.Parse(stringRepr[2])
+                            );
+                        todos.Add(todo);
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine($"Error parsing line: {line}. Exception: {e.Message}");
+                        throw;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Line format error: {line}");
+                }
+            }
+          
         }
-
         return todos;
     }
             
@@ -25,8 +49,9 @@ public static class TodoRepository
     {
         using (var sw = new StreamWriter(filePath))
         {
-            foreach (var todo in todos) 
+            foreach (var todo in todos)
             {
+                Console.WriteLine(todo.ToStringVerbose());
                 sw.WriteLine(todo.ToStringVerbose());
             }
         }

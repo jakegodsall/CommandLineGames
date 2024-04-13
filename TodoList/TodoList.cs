@@ -70,11 +70,7 @@ public class TodoList
                     break;
                 case "S":
                 case "s":
-                    Console.WriteLine("Enter filename");
-                    var filename = Console.ReadLine();
-                    Console.WriteLine($"Writing to {filename}.txt");
                     SaveTodos();
-                    Console.WriteLine($"Saved to {filename}.txt");
                     break;
             }
         }
@@ -104,6 +100,7 @@ public class TodoList
         if (TodoValidator.IsDescriptionValid(userInput, _todos))
         {
             _todos.Add(new Todo(userInput));
+            Console.WriteLine("Todo item added.");
         }
     }
         
@@ -148,6 +145,7 @@ public class TodoList
     private void SaveTodos()
     {
         TodoRepository.Write(DataFilePath, _todos);
+        Console.WriteLine("Todos saved to disk.");
     }
         
     private static void PrintOptions()

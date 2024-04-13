@@ -3,8 +3,8 @@ namespace TodoList;
 public class Todo
 {
     public string Description { get; private set;  }
-    public DateTime CreatedAt { get; private set; }
-    public bool IsComplete { get; private set; }
+    private DateTime CreatedAt { get; set; }
+    private bool IsComplete { get; set; }
 
     public Todo(string description)
     {
@@ -22,7 +22,7 @@ public class Todo
         
     private string FormatCreatedAt()
     {
-        return CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
+        return CreatedAt.ToString("yyyy/MM/dd HH:mm");
     }
 
     private string FormatComplete()

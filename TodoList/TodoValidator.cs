@@ -4,7 +4,7 @@ public static class TodoValidator
 {
     public static bool IsDescriptionValid(string description, List<Todo> todos)
     {
-        return IsDescriptionNullOrEmpty(description) && IsDescriptionUnique(description, todos);
+        return !IsDescriptionNullOrEmpty(description) && IsDescriptionUnique(description, todos);
     }
 
     public static bool IsDescriptionNullOrEmpty(string description)
