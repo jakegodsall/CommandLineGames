@@ -44,7 +44,7 @@ public class Board
         
 
         // Case 4 - diagonal 2
-        if (_board[0, 0] != ' ' && _board[0, 2] == _board[1, 1] && _board[0, 2] == _board[2, 0])
+        if (_board[0, 2] != ' ' && _board[0, 2] == _board[1, 1] && _board[0, 2] == _board[2, 0])
         {
             hasWon = true;
         }
@@ -55,7 +55,7 @@ public class Board
     private bool MoveIsValid(int x, int y)
     {
         // Check is within range
-        if (x < 1 || x > 3 || y < 1 || y > 3)
+        if (x < 0 || x > 2 || y < 0 || y > 2)
         {
             Console.WriteLine("The entries must be in range");
             return false;
