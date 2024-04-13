@@ -82,7 +82,7 @@ public class TodoList
         }
     }
 
-    private void ShowAllTodos(bool withIndices = false)
+    private void ShowAllTodos()
     {
         if (TodoCount() == 0)
         {
@@ -93,14 +93,7 @@ public class TodoList
             for (var i = 0; i < TodoCount(); i++)
             {
                 var item = _todos[i];
-                if (withIndices)
-                {
-                    PrintTableRowWithIndex(i + 1, item);
-                }
-                else
-                {
-                    PrintTableRow(item);
-                }
+                PrintTableRow(item);
             }
             Console.WriteLine();
         }
@@ -123,20 +116,10 @@ public class TodoList
         {
             ShowNoTodosMethod();
         }
-            
-        Console.WriteLine("Enter item number to remove: ");
-        var inputIsNotValid = true;
-        int indexToRemove;
-        do
-        {
-            var userInput = Console.ReadLine();
-            if (IsInputValidTodoIndex(userInput, out indexToRemove))
-            {
-                inputIsNotValid = false;
-            }
-        } while (inputIsNotValid);
 
-        _todos.RemoveAt(indexToRemove - 1);
+        int indexToRemove = ConsoleInputHelper.GetIntegerFromUser("Please enter the index of the TODO to remove");
+
+        _todos.RemoveAll(todo => todo.Id == indexToRemove);
     }
 
     private bool IsInputValidTodoIndex(string input, out int indexToRemove)
@@ -158,11 +141,23 @@ public class TodoList
     public void MarkTodoAsComplete()
     {
         Console.WriteLine("Select a TODO to mark as complete (by index):");
-        ShowAllTodos(true);
+        ShowAllTodos();
 
-        var input = Console.ReadLine();
-        var isSuccess = int.TryParse(input, out var index);
+        int indexToMarkAsComplete = ConsoleInputHelper.GetIntegerFromUser("Please enter the index of the TODO to mark as complete");
+
+        foreach (var todo in _todos)
+        {
+            if (todo.Id == indexToMarkAsComplete)
+            {
+                todo.IsComplete = true;
+                break;
+            }
+        }
+        
+        ShowAllTodos();
     }
+
+    
 
     private void SaveTodos()
     {
@@ -189,11 +184,6 @@ public class TodoList
     private void PrintTableRow(Todo item)
     {
         Console.WriteLine(item);
-    }
-
-    private void PrintTableRowWithIndex(int index, Todo item)
-    {
-        Console.WriteLine($"{index}: {item}");
     }
 
     private static void ShowNoTodosMethod()

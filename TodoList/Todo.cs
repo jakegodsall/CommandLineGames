@@ -6,7 +6,7 @@ public class Todo
     public int Id { get; private set; }
     public string Description { get; private set;  }
     private DateTime CreatedAt { get; set; }
-    private bool IsComplete { get; set; }
+    public bool IsComplete { get; set; }
 
     public Todo(string description)
     {
@@ -42,7 +42,7 @@ public class Todo
     public override string ToString()
     {
         var substring = Description.Count() < 100 ? Description : Description.Substring(0, 100) + "...";
-        return $"{FormatCreatedAt()}: {substring} {FormatComplete()}";
+        return $"{Id}: {FormatCreatedAt()}: {substring} {FormatComplete()}";
     }
         
     public string ToStringVerbose()
