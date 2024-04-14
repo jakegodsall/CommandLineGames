@@ -12,7 +12,7 @@ public class Board
         Height = height;
     }
 
-    public char[,] InitializeBoardArray(Snake snake)
+    public char[,] RenderSnakeOnBoardArray(Snake snake)
     {
         var arr = new char[Height, Width];
         for (var i = 0; i < arr.GetLength(0); i++)
