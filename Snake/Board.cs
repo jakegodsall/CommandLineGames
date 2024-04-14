@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
-
 namespace Snake;
 
 public class Board
@@ -12,20 +10,27 @@ public class Board
     {
         Width = width;
         Height = height;
-        BoardArray = InitializeBoardArray();
     }
 
-    private char[,] InitializeBoardArray()
+    public char[,] InitializeBoardArray(Snake snake)
     {
         var arr = new char[Height, Width];
         for (var i = 0; i < arr.GetLength(0); i++)
         {
             for (var j = 0; j < arr.GetLength(1); j++)
             {
-                arr[i, j] = ' ';
+                if (snake.IsAtCoord(i, j))
+                {
+                    arr[i, j] = snake.Character;
+                }
+                else
+                {
+                    arr[i, j] = ' ';
+                }
             }
         }
 
+        BoardArray = arr;
         return arr;
     }
 
@@ -37,7 +42,7 @@ public class Board
         Console.WriteLine(verticalBar);
         for (var i = 0; i < BoardArray.GetLength(0); i++)
         {
-            string row = "|";
+            var row = "|";
             for (var j = 0; j < BoardArray.GetLength(1); j++)
             {
                 row += BoardArray[i, j];
