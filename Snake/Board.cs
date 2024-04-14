@@ -1,0 +1,50 @@
+using System.Runtime.InteropServices.JavaScript;
+
+namespace Snake;
+
+public class Board
+{
+    public int Width { get; init; }
+    public int Height { get; init; }
+    public char[,] BoardArray { get; private set; }
+
+    public Board(int width, int height)
+    {
+        Width = width;
+        Height = height;
+        BoardArray = InitializeBoardArray();
+    }
+
+    private char[,] InitializeBoardArray()
+    {
+        var arr = new char[Height, Width];
+        for (var i = 0; i < arr.GetLength(0); i++)
+        {
+            for (var j = 0; j < arr.GetLength(1); j++)
+            {
+                arr[i, j] = ' ';
+            }
+        }
+
+        return arr;
+    }
+
+    public void Draw()
+    {
+        Console.Clear();
+        string verticalBar = new string('-', Width + 2);
+        
+        Console.WriteLine(verticalBar);
+        for (var i = 0; i < BoardArray.GetLength(0); i++)
+        {
+            string row = "|";
+            for (var j = 0; j < BoardArray.GetLength(1); j++)
+            {
+                row += BoardArray[i, j];
+            }
+
+            Console.WriteLine(row += "|");
+        }
+        Console.WriteLine(verticalBar);
+    }
+}

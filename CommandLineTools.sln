@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList", "TodoList\TodoLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiceRollGame", "DiceRollGame\DiceRollGame.csproj", "{97150EBB-6051-4713-8E0A-B46D36C8D25E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake", "Snake\Snake.csproj", "{C6BB143D-328E-49DA-916C-5C5ECB280458}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{97150EBB-6051-4713-8E0A-B46D36C8D25E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97150EBB-6051-4713-8E0A-B46D36C8D25E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97150EBB-6051-4713-8E0A-B46D36C8D25E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6BB143D-328E-49DA-916C-5C5ECB280458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6BB143D-328E-49DA-916C-5C5ECB280458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6BB143D-328E-49DA-916C-5C5ECB280458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6BB143D-328E-49DA-916C-5C5ECB280458}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
