@@ -6,6 +6,9 @@ public class Game
 {
     public Board Board { get; set; }
     public Snake Snake { get; set; }
+
+    public static string currentDirection { get; set; } = "right";
+    private static readonly object lockObject = new object();
     
     public void Run()
     {
@@ -20,6 +23,8 @@ public class Game
         int initialSnakeLength
         )
     {
+        Task inputTask = Task.Run(() => HandleInput());
+        
         Board = new Board(boardWidth, boardHeight);
         Snake = new Snake(initialSnakeX, initialSnakeY, initialSnakeLength, '\u2588');
 
@@ -30,7 +35,27 @@ public class Game
 
         while (!gameOver)
         {
-            Snake.MoveRight();
+            string directionToMove;
+            lock (lockObject)
+            {
+                directionToMove = currentDirection;
+            }
+            switch (directionToMove)
+            {
+                case "up":
+                    Snake.MoveUp();
+                    break;
+                case "right":
+                    Snake.MoveRight();
+                    break;
+                case "down":
+                    Snake.MoveDown();
+                    break;
+                case "left":
+                    Snake.MoveLeft();
+                    break;
+            }
+            
             Board.RenderSnakeOnBoardArray(Snake);
             Board.Draw();
 
@@ -40,6 +65,40 @@ public class Game
             }
 
             Thread.Sleep(200);
+        }
+    }
+
+    private static void HandleInput()
+    {
+        while (true)
+        {
+            if (Console.KeyAvailable)
+            {
+                var key = Console.ReadKey().Key;
+                lock (lockObject)
+                {
+                    switch (key)
+                    {
+                        case ConsoleKey.W:
+                            if (currentDirection != "down")
+                                currentDirection = "up";
+                            break;
+                        case ConsoleKey.D:
+                            if (currentDirection != "left")
+                                currentDirection = "right";
+                            break;
+                        case ConsoleKey.S:
+                            if (currentDirection != "up")
+                                currentDirection = "down";
+                            break;
+                        case ConsoleKey.A:
+                            if (currentDirection != "right")
+                                currentDirection = "left";
+                            break;
+                    }
+                }
+            }
+            Thread.Sleep(50);
         }
     }
 }

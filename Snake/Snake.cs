@@ -35,7 +35,7 @@ public class Snake
     {
         foreach (var segment in snake)
         {
-            segment.YPos++;
+            segment.YPos--;
         }
     }
 
@@ -51,7 +51,7 @@ public class Snake
     {
         foreach (var segment in snake)
         {
-            segment.YPos--;
+            segment.YPos++;
         }
     }
 
