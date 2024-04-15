@@ -57,7 +57,7 @@ public class Game
                     break;
             }
             
-            if (Snake.IsAtCoord(food.YPos, food.XPos))
+            if (Snake.IsAtCoord(food.XPos, food.YPos))
             {
                 Snake.hasEaten = true;
                 food.Respawn(boardWidth, boardHeight);
