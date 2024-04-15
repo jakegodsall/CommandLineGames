@@ -12,30 +12,28 @@ public class Board
         Height = height;
     }
 
-    public char[,] CalculateBoardState(Snake snake, Food food)
+    public void CalculateBoardState(Snake snake, Food food)
     {
         var arr = new char[Height, Width];
-        for (var i = 0; i < arr.GetLength(0); i++)
+        for (var y = 0; y < arr.GetLength(0); y++)
         {
-            for (var j = 0; j < arr.GetLength(1); j++)
+            for (var x = 0; x < arr.GetLength(1); x++)
             {
-                if (snake.IsAtCoord(i, j))
+                if (snake.IsAtCoord(x, y))
                 {
-                    arr[i, j] = snake.Symbol;
+                    arr[y, x] = snake.Symbol;
                 }
-                else if (food.IsAtCoord(i, j))
+                else if (food.IsAtCoord(x, y))
                 {
-                    arr[i, j] = food.Symbol;
+                    arr[y, x] = food.Symbol;
                 }
                 else
                 {
-                    arr[i, j] = ' ';
+                    arr[y, x] = ' ';
                 }
             }
         }
-
         BoardArray = arr;
-        return arr;
     }
 
     public void Draw()
@@ -44,12 +42,12 @@ public class Board
         string verticalBar = new string('-', Width + 2);
         
         Console.WriteLine(verticalBar);
-        for (var i = 0; i < BoardArray.GetLength(0); i++)
+        for (var y = 0; y < BoardArray.GetLength(0); y++)
         {
             var row = "|";
-            for (var j = 0; j < BoardArray.GetLength(1); j++)
+            for (var x = 0; x < BoardArray.GetLength(1); x++)
             {
-                row += BoardArray[i, j];
+                row += BoardArray[y, x];
             }
 
             Console.WriteLine(row += "|");

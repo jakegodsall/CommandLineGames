@@ -20,11 +20,11 @@ public class Snake
 
         for (var i = 0; i < initialLength; i++)
         {
-            snake.Enqueue(new SnakeSegment(initialSnakeY, initialSnakeX - initialLength + i, character));
+            snake.Enqueue(new SnakeSegment(initialSnakeX - initialLength + i, initialSnakeY, character));
         }
     }
 
-    public bool IsAtCoord(int yPos, int xPos)
+    public bool IsAtCoord(int xPos, int yPos)
     {
         foreach (var segment in snake)
         {
@@ -65,7 +65,7 @@ public class Snake
     public void Move(int newY, int newX)
     {
         // Add the new head position
-        snake.Enqueue(new SnakeSegment(newY, newX, Symbol));
+        snake.Enqueue(new SnakeSegment(newX, newY, Symbol));
         
         // If the snake has eaten, it grows by not removing the tail in this frame
         if (!hasEaten)

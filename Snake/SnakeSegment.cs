@@ -6,7 +6,7 @@ public class SnakeSegment
     public int YPos { get; set; }
     public char Character { get; set; }
 
-    public SnakeSegment(int yPos, int xPos, char character)
+    public SnakeSegment(int xPos, int yPos, char character)
     {
         YPos = yPos;
         XPos = xPos;
