@@ -12,7 +12,7 @@ public class Game
     
     public void Run()
     {
-        InitializeGame(80, 20, 5, 10, 6);
+        InitializeGame(80, 20, 40, 10, 6);
     }
 
     public void InitializeGame(
@@ -64,7 +64,7 @@ public class Game
                 gameOver = true;
             }
 
-            Thread.Sleep(50);
+            Thread.Sleep(200);
         }
     }
 

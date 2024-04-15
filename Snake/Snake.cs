@@ -40,25 +40,25 @@ public class Snake
 
     public void MoveUp()
     {
-        var head = snake.Peek(); // Get the current position of the head of the snake
+        var head = snake.Last(); // Get the current position of the head of the snake
         Move(head.YPos - 1, head.XPos);
     }
 
     public void MoveRight()
     {
-        var head = snake.Peek(); // Get the current position of the head of the snake
+        var head = snake.Last(); // Get the current position of the head of the snake
         Move(head.YPos, head.XPos + 1);
     }
 
     public void MoveDown()
     {
-        var head = snake.Peek(); // Get the current position of the head of the snake
+        var head = snake.Last(); // Get the current position of the head of the snake
         Move(head.YPos + 1, head.XPos);
     }
 
     public void MoveLeft()
     {
-        var head = snake.Peek(); // Get the current position of the head of the snake
+        var head = snake.Last(); // Get the current position of the head of the snake
         Move(head.YPos, head.XPos - 1);
     }
     
