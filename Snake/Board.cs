@@ -12,7 +12,7 @@ public class Board
         Height = height;
     }
 
-    public char[,] RenderSnakeOnBoardArray(Snake snake)
+    public char[,] CalculateBoardState(Snake snake, Food food)
     {
         var arr = new char[Height, Width];
         for (var i = 0; i < arr.GetLength(0); i++)
@@ -21,7 +21,11 @@ public class Board
             {
                 if (snake.IsAtCoord(i, j))
                 {
-                    arr[i, j] = snake.Character;
+                    arr[i, j] = snake.Symbol;
+                }
+                else if (food.IsAtCoord(i, j))
+                {
+                    arr[i, j] = food.Symbol;
                 }
                 else
                 {

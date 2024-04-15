@@ -5,7 +5,7 @@ namespace Snake;
 public class Snake
 {
     public Queue<SnakeSegment> snake;
-    public char Character { get; set; }
+    public char Symbol { get; set; }
     public bool hasEaten = false;
 
     public Snake(
@@ -15,7 +15,7 @@ public class Snake
         char character
         )
     {
-        Character = character;
+        Symbol = character;
         snake = new Queue<SnakeSegment>();
 
         for (var i = 0; i < initialLength; i++)
@@ -65,7 +65,7 @@ public class Snake
     public void Move(int newY, int newX)
     {
         // Add the new head position
-        snake.Enqueue(new SnakeSegment(newY, newX, Character));
+        snake.Enqueue(new SnakeSegment(newY, newX, Symbol));
         
         // If the snake has eaten, it grows by not removing the tail in this frame
         if (!hasEaten)

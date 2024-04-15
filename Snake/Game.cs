@@ -26,9 +26,10 @@ public class Game
         Task inputTask = Task.Run(() => HandleInput());
         
         Board = new Board(boardWidth, boardHeight);
+        var food = new Food(boardWidth, boardHeight, 'x');
         Snake = new Snake(initialSnakeX, initialSnakeY, initialSnakeLength, '\u2588');
 
-        Board.RenderSnakeOnBoardArray(Snake);
+        Board.CalculateBoardState(Snake, food);
         Board.Draw();
 
         var gameOver = false;
@@ -56,14 +57,20 @@ public class Game
                     break;
             }
             
-            Board.RenderSnakeOnBoardArray(Snake);
-            Board.Draw();
+            if (Snake.IsAtCoord(food.YPos, food.XPos))
+            {
+                Snake.hasEaten = true;
+                food.Respawn(boardWidth, boardHeight);
+            }
 
             if (Snake.HasCollidedWithBorder(boardWidth, boardHeight))
             {
                 gameOver = true;
             }
-
+            
+            
+            Board.CalculateBoardState(Snake, food);
+            Board.Draw();
             Thread.Sleep(200);
         }
     }
