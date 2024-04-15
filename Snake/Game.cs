@@ -80,18 +80,22 @@ public class Game
                     switch (key)
                     {
                         case ConsoleKey.W:
+                        case ConsoleKey.UpArrow:
                             if (currentDirection != "down")
                                 currentDirection = "up";
                             break;
                         case ConsoleKey.D:
+                        case ConsoleKey.RightArrow:
                             if (currentDirection != "left")
                                 currentDirection = "right";
                             break;
                         case ConsoleKey.S:
+                        case ConsoleKey.DownArrow:
                             if (currentDirection != "up")
                                 currentDirection = "down";
                             break;
                         case ConsoleKey.A:
+                        case ConsoleKey.LeftArrow:
                             if (currentDirection != "right")
                                 currentDirection = "left";
                             break;
