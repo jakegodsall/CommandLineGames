@@ -12,7 +12,7 @@ public class Game
     
     public void Run()
     {
-        InitializeGame(80, 20, 5, 10, 2);
+        InitializeGame(80, 20, 5, 10, 6);
     }
 
     public void InitializeGame(
@@ -59,12 +59,12 @@ public class Game
             Board.RenderSnakeOnBoardArray(Snake);
             Board.Draw();
 
-            if (Snake.IsOutOfBounds(boardWidth, boardHeight))
+            if (Snake.HasCollidedWithBorder(boardWidth, boardHeight))
             {
                 gameOver = true;
             }
 
-            Thread.Sleep(200);
+            Thread.Sleep(50);
         }
     }
 

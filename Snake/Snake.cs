@@ -1,9 +1,12 @@
+using System.Runtime.CompilerServices;
+
 namespace Snake;
 
 public class Snake
 {
-    public List<SnakeSegment> snake;
+    public Queue<SnakeSegment> snake;
     public char Character { get; set; }
+    public bool hasEaten = false;
 
     public Snake(
         int initialSnakeX,
@@ -13,10 +16,12 @@ public class Snake
         )
     {
         Character = character;
-        snake = new List<SnakeSegment>()
+        snake = new Queue<SnakeSegment>();
+
+        for (var i = 0; i < initialLength; i++)
         {
-            new SnakeSegment(initialSnakeY, initialSnakeX, Character),
-        };
+            snake.Enqueue(new SnakeSegment(initialSnakeY, initialSnakeX - initialLength + i, character));
+        }
     }
 
     public bool IsAtCoord(int yPos, int xPos)
@@ -31,41 +36,53 @@ public class Snake
         return false;
     }
 
+    
+
     public void MoveUp()
     {
-        foreach (var segment in snake)
-        {
-            segment.YPos--;
-        }
+        var head = snake.Peek(); // Get the current position of the head of the snake
+        Move(head.YPos - 1, head.XPos);
     }
 
     public void MoveRight()
     {
-        foreach (var segment in snake)
-        {
-            segment.XPos++;
-        }
+        var head = snake.Peek(); // Get the current position of the head of the snake
+        Move(head.YPos, head.XPos + 1);
     }
 
     public void MoveDown()
     {
-        foreach (var segment in snake)
-        {
-            segment.YPos++;
-        }
+        var head = snake.Peek(); // Get the current position of the head of the snake
+        Move(head.YPos + 1, head.XPos);
     }
 
     public void MoveLeft()
     {
-        foreach (var segment in snake)
+        var head = snake.Peek(); // Get the current position of the head of the snake
+        Move(head.YPos, head.XPos - 1);
+    }
+    
+    public void Move(int newY, int newX)
+    {
+        // Add the new head position
+        snake.Enqueue(new SnakeSegment(newY, newX, Character));
+        
+        // If the snake has eaten, it grows by not removing the tail in this frame
+        if (!hasEaten)
         {
-            segment.XPos--;
+            // remove the tail
+            snake.Dequeue();
+        }
+        else
+        {
+            // Reset the hasEaten flag for the next frame
+            hasEaten = false;
         }
     }
 
-    public bool IsOutOfBounds(int boardWidth, int boardHeight)
+    public bool HasCollidedWithBorder(int boardWidth, int boardHeight)
     {
-        var head = snake[0];
+        var head = snake.First();
         return (head.XPos < 0 || head.XPos > boardWidth || head.YPos < 0 || head.YPos > boardHeight);
     }
 }
