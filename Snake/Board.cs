@@ -38,7 +38,6 @@ public class Board
 
     public void Draw()
     {
-        Console.Clear();
         string verticalBar = new string('-', Width + 2);
         
         Console.WriteLine(verticalBar);

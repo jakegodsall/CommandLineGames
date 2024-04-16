@@ -85,4 +85,22 @@ public class Snake
         var head = snake.First();
         return (head.XPos < 0 || head.XPos > boardWidth || head.YPos < 0 || head.YPos > boardHeight);
     }
+
+    public bool HasCollidedWithSelf()
+    {
+        var head = snake.First();
+        foreach (var segment in snake)
+        {
+            if (segment == head)
+            {
+                continue;
+            }
+
+            if (segment.XPos == head.XPos && segment.YPos == head.YPos)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

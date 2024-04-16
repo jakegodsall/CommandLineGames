@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Threading;
 
 namespace Snake;
@@ -7,12 +8,15 @@ public class Game
     public Board Board { get; set; }
     public Snake Snake { get; set; }
 
+    public int Score { get; set; }
+    private Stopwatch stopwatch = new Stopwatch();
+
     public static string currentDirection { get; set; } = "right";
     private static readonly object lockObject = new object();
     
     public void Run()
     {
-        InitializeGame(80, 20, 40, 10, 6);
+        InitializeGame(40, 20, 20, 10, 6);
     }
 
     public void InitializeGame(
@@ -23,6 +27,7 @@ public class Game
         int initialSnakeLength
         )
     {
+        stopwatch.Start();
         Task inputTask = Task.Run(() => HandleInput());
         
         Board = new Board(boardWidth, boardHeight);
@@ -30,7 +35,8 @@ public class Game
         Snake = new Snake(initialSnakeX, initialSnakeY, initialSnakeLength, '\u2588');
 
         Board.CalculateBoardState(Snake, food);
-        Board.Draw();
+
+        DisplayGame();
 
         var gameOver = false;
 
@@ -59,18 +65,20 @@ public class Game
             
             if (Snake.IsAtCoord(food.XPos, food.YPos))
             {
+                Score++;
                 Snake.hasEaten = true;
                 food.Respawn(boardWidth, boardHeight);
             }
 
-            if (Snake.HasCollidedWithBorder(boardWidth, boardHeight))
+            if (Snake.HasCollidedWithSelf() || Snake.HasCollidedWithBorder(boardWidth, boardHeight))
             {
                 gameOver = true;
+                stopwatch.Stop();
             }
             
             
             Board.CalculateBoardState(Snake, food);
-            Board.Draw();
+            DisplayGame();
             Thread.Sleep(200);
         }
     }
@@ -111,5 +119,18 @@ public class Game
             }
             Thread.Sleep(50);
         }
+    }
+
+    public void DisplayGame()
+    {
+        Console.Clear();
+        Console.WriteLine("Score: " + Score + "           Time: " + FormatElapsedTime(stopwatch.Elapsed));
+        Board.Draw();
+    }
+    
+    private static string FormatElapsedTime(TimeSpan time)
+    {
+        // Formatting elapsed time as MM:SS
+        return $"{time.Minutes + time.Hours * 60:D2}:{time.Seconds:D2}";
     }
 }
