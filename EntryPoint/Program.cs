@@ -1,16 +1,20 @@
-﻿namespace EntryPoint
+﻿using EntryPoint.Utils;
+
+namespace EntryPoint
 {
     class EntryPoint
     {
         private static List<string> _options = new List<string>()
         {
-            "Todo List",
+            "Snake",
             "Tic-Tac-Toe"
         };
         
         public static void Main(string[] args)
         {
-            Console.WriteLine("Select a tool:");
+            
+            ConsoleUtils.GenerateConsoleHeader("COMMAND LINE GAMES");
+            Console.WriteLine("\nSelect a game:\n");
             DisplayOptions();
             
             int intInput;
@@ -36,7 +40,7 @@
         {
             for (int i = 0; i < _options.Count; i++)
             {
-                Console.WriteLine($"[{i + 1}] {_options[i]}");
+                Console.WriteLine($"\u2192 {i + 1}. {_options[i]}");
             }
         }
 
